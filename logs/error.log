@@ -293,3 +293,4 @@ $_SERVER = [
     'REQUEST_TIME' => 1602025788,
 ]" while reading upstream, client: 127.0.0.1, server: blog.localhost, request: "GET /api/web/index.php HTTP/1.1", upstream: "fastcgi://127.0.0.1:9123", host: "blog.localhost"
 2020/10/07 09:26:03 [error] 6316#4620: *108 directory index of "C:/dev/projects/blog/" is forbidden, client: 192.168.1.33, server: blog.localhost, request: "GET / HTTP/1.1", host: "192.168.1.33"
+2020/10/07 13:26:03 [error] 4488#2728: *84 directory index of "C:/dev/projects/blog/" is forbidden, client: 192.168.1.33, server: blog.localhost, request: "GET / HTTP/1.1", host: "192.168.1.33"
