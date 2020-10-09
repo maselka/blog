@@ -11,6 +11,8 @@ use yii\web\Response;
 
 class UserController extends Controller
 {
+    public $enableCsrfValidation = false;
+
     public function actionIndex()
     {
         echo 'test';
@@ -22,23 +24,22 @@ class UserController extends Controller
         $app = Yii::$app;
         $app->response->format = Response::FORMAT_JSON;
         $param = Yii::$app->request->post();
-        var_dump($param);
         try {
             $user = User::find()
-            ->where(['email' => $param['email']])
-            ->one();
+                ->where(['email' => $param['email']])
+                ->one();
             $password = $param['password'];
         } catch (ErrorException $e) {
-            return ['status' => false, 'data' => $e->getMessage()];
+            return ['status' => false, 'error_massage' => $e->getMessage()];
         }
 
         if (!$user) {
-            return ['status' => false, 'data' => 'wrong  email or password'];
+            return ['status' => false, 'error_massage' => 'wrong  email or password'];
         }
 
         $hash = $user->getAttribute('password');
-        if ($app->security->validatePassword($password, $hash)) {
-            return ['status' => false, 'data' => 'wrong  email or password'];
+        if (!$app->security->validatePassword($password, $hash)) {
+            return ['status' => false, 'error_massage' => 'wrong  email or password'];
         }
 
         $access_token = AccessToken::find()
@@ -51,12 +52,32 @@ class UserController extends Controller
 
         $access_token->setAttribute('token', $app->security->generateRandomString());
         $access_token->setAttribute('time_stamp', date("Y-m-d H:i:s"));
+        $access_token->save();
 
-        return ['status' => true, 'data' => $access_token->getAttribute('token')];
+        return ['status' => true, 'access_token' => $access_token->getAttribute('token')];
     }
 
     public function actionCreate()
     {
+        $app = Yii::$app;
+        $app->response->format = Response::FORMAT_JSON;
+        $user = new User();
+        $user->scenario = User::SCENARIO_CREATE;
+        $user->attributes = $app->request->post();
+        var_dump($user->getAttribute('password'));
+        if (!$user->validate()) {
+            return ['status' => false, 'error_massage' => $user->getErrors()];
+        }
 
+        $user->setAttribute('password', $app->security->generatePasswordHash($user->getAttribute('password')));
+        $user->save();
+
+        $access_token = new AccessToken();
+        $access_token->setAttribute('user_id', $user->getAttribute('id'));
+        $access_token->setAttribute('token', $app->security->generateRandomString());
+        $access_token->setAttribute('time_stamp', date("Y-m-d H:i:s"));
+        $access_token->save();
+
+        return ['status' => true, 'access_token' => $access_token->getAttribute('token')];
     }
 }
