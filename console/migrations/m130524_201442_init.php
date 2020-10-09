@@ -17,7 +17,14 @@ class m130524_201442_init extends Migration
             'email' => $this->string()->notNull()->unique(),
             'name' => $this->string()->notNull(),
             'password' => $this->string()->notNull(),
+            'role' => $this->string(255)->notNull()->defaultValue('user'),
         ], $tableOptions);
+
+        $this->createTable('{{%access_token}}', [
+            'id' => $this->primaryKey(),
+            'user_id' => $this->integer()->notNull(),
+            'token' => $this->string(),
+        ]);
     }
 
     public function down()
