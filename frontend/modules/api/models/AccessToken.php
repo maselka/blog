@@ -48,4 +48,21 @@ class AccessToken extends \yii\db\ActiveRecord
             'time_stamp' => 'Time Stamp',
         ];
     }
+
+    public static function findByUserId($id)
+    {
+        return static::findOne(['user_id' => $id]);
+    }
+
+    public static function findUserIdByAccessToken($access_token)
+    {
+        $token = static::findOne(['token' => $access_token]);
+
+
+        if($token) {
+             $token = $token->getAttribute('user_id');
+         }
+
+        return $token;
+    }
 }

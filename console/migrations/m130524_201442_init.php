@@ -22,13 +22,23 @@ class m130524_201442_init extends Migration
 
         $this->createTable('{{%access_token}}', [
             'id' => $this->primaryKey(),
+            'user_id' => $this->integer()->notNull()->unique(),
+            'token' => $this->string()->notNull(),
+            'time_stamp' => $this->dateTime()->notNull(),
+        ]);
+
+        $this->createTable('{{%post}}', [
+            'id' => $this->primaryKey(),
             'user_id' => $this->integer()->notNull(),
-            'token' => $this->string(),
+            'text' => $this->text()->notNull(),
+            'date' => $this->dateTime()->notNull(),
         ]);
     }
 
     public function down()
     {
         $this->dropTable('{{%user}}');
+        $this->dropTable('{{%access_token}}');
+        $this->dropTable('{{%post}}');
     }
 }

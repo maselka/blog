@@ -482,3 +482,56 @@ Stack trace:
 2020/10/09 19:49:51 [error] 8364#8356: *122 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: blog.localhost, request: "POST /admin/gii/form HTTP/1.1", upstream: "fastcgi://127.0.0.1:9123", host: "blog.localhost", referrer: "http://blog.localhost/admin/gii/form"
 2020/10/10 02:52:48 [error] 8364#8356: *823 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: blog.localhost, request: "GET /admin/debug/default/toolbar?tag=5f80f7ce823e2 HTTP/1.1", upstream: "fastcgi://127.0.0.1:9123", host: "blog.localhost", referrer: "http://blog.localhost/admin/site/login"
 2020/10/10 02:53:45 [error] 8364#8356: *823 connect() failed (10061: No connection could be made because the target machine actively refused it) while connecting to upstream, client: 127.0.0.1, server: blog.localhost, request: "POST /admin/site/login HTTP/1.1", upstream: "fastcgi://127.0.0.1:9123", host: "blog.localhost", referrer: "http://blog.localhost/admin/site/login"
+2020/10/10 06:09:53 [error] 8364#8356: *1229 FastCGI sent in stderr: "An Error occurred while handling another error:
+yii\web\HeadersAlreadySentException: Headers already sent in C:\dev\projects\blog\frontend\modules\api\controllers\PostController.php on line 52. in C:\dev\projects\blog\vendor\yiisoft\yii2\web\Response.php:366
+Stack trace:
+#0 C:\dev\projects\blog\vendor\yiisoft\yii2\web\Response.php(339): yii\web\Response->sendHeaders()
+#1 C:\dev\projects\blog\vendor\yiisoft\yii2\web\ErrorHandler.php(136): yii\web\Response->send()
+#2 C:\dev\projects\blog\vendor\yiisoft\yii2\base\ErrorHandler.php(135): yii\web\ErrorHandler->renderException(Object(yii\web\HeadersAlreadySentException))
+#3 [internal function]: yii\base\ErrorHandler->handleException(Object(yii\web\HeadersAlreadySentException))
+#4 {main}
+Previous exception:
+yii\web\HeadersAlreadySentException: Headers already sent in C:\dev\projects\blog\frontend\modules\api\controllers\PostController.php on line 52. in C:\dev\projects\blog\vendor\yiisoft\yii2\web\Response.php:366
+Stack trace:
+#0 C:\dev\projects\blog\vendor\yiisoft\yii2\web\Response.php(339): yii\web\Response->sendHeaders()
+#1 C:\dev\projects\blog\vendor\yiisoft\yii2\base\Application.php(392): yii\web\Response->send()
+#2 C:\dev\projects\blog\frontend\web\index.php(17): yii\base\Application->run()
+#3 {main}
+$_SERVER = [
+    'ALLUSERSPROFILE' => 'C:\\ProgramData',
+    'AMDAPPSDKROOT' => 'C:\\Program Files (x86)\\AMD APP\\',
+    'APPDATA' => 'C:\\Users\\User\\AppData\\Roaming',
+    'CommonProgramFiles' => 'C:\\Program Files\\Common Files',
+    'CommonProgramFiles(x86)' => 'C:\\Program Files (x86)\\Common Files',
+    'CommonProgramW6432' => 'C:\\Program Files\\Common Files',
+    'COMPUTERNAME' => 'WIN-R208291RN9K',
+    'ComSpec' => 'C:\\Windows\\system32\\cmd.exe',
+    'EQ_LIBRARY_PATH' => 'C:\\Users\\User\\gcc\\x86_64-w64-mingw32\\lib',
+    'FARHOME' => 'C:\\Program Files (x86)\\Far',
+    'FARLANG' => 'English',
+    'FARLOCALPROFILE' => 'C:\\Users\\User\\AppData\\Local\\Far Manager\\Profile',
+    'FARPR
+2020/10/10 06:09:54 [error] 8364#8356: *1229 FastCGI sent in stderr: "ndows\\System32\\WindowsPowerShell\\v1.0\\;C:\\Program Files (x86)\\ATI Technologies\\ATI.ACE\\Core-Static;C:\\Program Files\\TortoiseGit\\bin;C:\\ProgramData\\ComposerSetup\\bin;C:\\Program Files\\Git\\cmd;C:\\Program Files\\Git\\mingw64\\bin;C:\\Program Files\\Git\\usr\\bin;C:\\dev\\mysql-8.0.18\\bin;C:\\Program Files (x86)\\Microsoft SQL Server\\150\\DTS\\Binn\\;C:\\Program Files\\MySQL\\MySQL Shell 8.0\\bin\\;C:\\Users\\User\\AppData\\Local\\Microsoft\\WindowsApps;C:\\Program Files\\heroku\\bin;C:\\Users\\User\\AppData\\Roaming\\Composer\\vendor\\bin;C:\\Users\\User\\AppData\\Local\\Programs\\Microsoft VS Code\\bin;C:\\Users\\User\\AppData\\Local\\GitHubDesktop\\bin;C:\\dev\\php7.4.8;C:\\Program Files\\JetBrains\\PhpStorm 2020.2.2\\bin;;C:\\Program Files\\MySQL\\MySQL Server 5.7\\bin;',
+    'PATHEXT' => '.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC',
+    'PhpStorm' => 'C:\\Program Files\\JetBrains\\PhpStorm 2020.2.2\\bin;',
+    'PROCESSOR_ARCHITECTURE' => 'AMD64',
+    'PROCESSOR_IDENTIFIER' => 'Intel64 Family 6 Model 42 Stepping 7, GenuineIntel',
+    'PROCESSOR_LEVEL' => '6',
+    'PROCESSOR_REVISION' => '2a07',
+    'ProgramData' => 'C:\\ProgramData',
+    'ProgramFiles' => 'C:\\Program Files',
+    'ProgramFiles(x86)' => 'C:\\Program Files (x86)',
+    'ProgramW6432' => 'C:\\Program Files',
+    'PROMPT' => '$P$G',
+    'PSModulePath' => 'C:\\Program Files\\WindowsPowerShell\\Modules;C:\\Windows\\system32\\WindowsPowerShell\\v1.0\\Modules',
+    'PUBLIC' => 'C:\\Users\\Public',
+    'SESSIONNAME' => 'Console',
+    'SystemDrive' => 'C:',
+    'SystemRoot' => 'C:\\Windows',
+    'TEMP' => 'C:\\Users\\User\\AppData\\Local\\Temp',
+    'TMP' => 'C:\\Users\\User\\AppData\\Local\\Temp',
+    'USERDOMAIN' => 'WIN-R208291RN9K',
+    'USERDOMAIN_ROAMINGPROFILE' => 'WIN-R208291RN9K',
+    'USERNAME' => 'User',
+    'USERPROFILE' => 'C:\\Users\\User',
+    'VS160COMCOMNTOOLS' => 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Common7\\
