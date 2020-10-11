@@ -57,10 +57,9 @@ class AccessToken extends \yii\db\ActiveRecord
     public static function findUserIdByAccessToken($access_token)
     {
         $token = static::findOne(['token' => $access_token]);
-
         if($token) {
              $token = $token->getAttribute('user_id');
-         }
+        }
 
         return $token;
     }

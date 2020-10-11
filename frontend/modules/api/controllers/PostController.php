@@ -65,30 +65,63 @@ class PostController extends Controller
         return ['status' => true, 'data' => 'post published'];
     }
 
-
-    public function actionGetAll()
+    public function actionAll()
     {
         $app = Yii::$app;
         $app->response->format = Response::FORMAT_JSON;
         $param = $app->request->getQueryParams();
         $offset = $param['offset'] ?? 0;
+        $limit = $param['limit'] ?? NULL;
 
         try {
-            $limit = $param['limit'];
-            $user_id = AccessToken::findUserIdByAccessToken($param['access_token']);
+            $access_token = AccessToken::findOne(['token' => $param['access_token']]);
         } catch (ErrorException $e) {
             return ['status' => false, 'error_massage' => $e->getMessage()];
         }
 
-        if (!isset($param['access_token']) || !$user_id) {
+        $user = $access_token->user;
+        if(!$user) {
             return ['status' => false, 'error_massage' => 'Incorrect access token'];
         }
 
         $posts = Post::getAll($limit, $offset);
         foreach ($posts as &$post) {
-            $author = $post->getUserName();
+            $author = $post->user->name;
             $post = $post->toArray();
             $post['author'] = $author;
+        }
+
+        return $posts;
+    }
+
+    public function actionUser()
+    {
+        $app = Yii::$app;
+        $app->response->format = Response::FORMAT_JSON;
+        $param = $app->request->getQueryParams();
+        $offset = $param['offset'] ?? 0;
+        $limit = $param['limit'] ?? NULL;
+
+        try {
+            $access_token = AccessToken::findOne(['token' => $param['access_token']]);
+        } catch (ErrorException $e) {
+            return ['status' => false, 'error_massage' => $e->getMessage()];
+        }
+
+        $user = $access_token->user;
+        if(!$user) {
+            return ['status' => false, 'error_massage' => 'Incorrect access token'];
+        }
+
+        $posts = $user->posts;
+        if (!$posts) {
+            return ['status' => false, 'error_massage' => 'User did not create post'];
+        }
+
+        $posts = array_slice($posts, $offset, $limit);
+        foreach ($posts as &$post) {
+            $post = $post->toArray();
+            $post['author'] = $user->name;
         }
 
         return $posts;

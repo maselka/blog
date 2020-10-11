@@ -612,3 +612,4 @@ $_SERVER = [
     'SERVER_SOFTWARE' => 'nginx/1.19.3',
     'GATEWAY_INTERFACE' => 'CGI/1.1',
   
+2020/10/11 10:14:57 [error] 8364#8356: *1403 FastCGI sent in stderr: "PHP Fatal error:  Cannot redeclare app\modules\api\models\AccessToken::getUser() in C:\dev\projects\blog\frontend\modules\api\models\AccessToken.php on line 72" while reading response header from upstream, client: 127.0.0.1, server: blog.localhost, request: "GET /api/post/user?access_token=t26EX_8JGzoLHfuNJfyKBexBAynXV5lR&limit=1&offset=1 HTTP/1.1", upstream: "fastcgi://127.0.0.1:9123", host: "blog.localhost"
