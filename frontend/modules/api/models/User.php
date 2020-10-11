@@ -102,4 +102,24 @@ class User extends ActiveRecord
     {
         return $this->getPrimaryKey();
     }
+
+    public function getPosts()
+    {
+        return $this->hasMany(Post::className(), ['user_id' => 'id'])->select(['text', 'date'])->all();
+    }
+
+    public function getAccessToken()
+    {
+        return $this->hasMany(Post::className(), ['user_id' => 'id'])->select(['token'])->one();
+    }
+
+    public static function getAll()
+    {
+        return User::find()->all();
+    }
+
+    public static function getNameById()
+    {
+        return User::find()->select('name')->all();
+    }
 }

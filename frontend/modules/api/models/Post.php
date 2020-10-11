@@ -57,4 +57,26 @@ class Post extends \yii\db\ActiveRecord
             'date' => 'Date',
         ];
     }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+
+    public function getUserName()
+    {
+        $user = $this->hasOne(User::className(), ['id' => 'user_id'])->one();
+        if ($user) {
+           $user_name = $user->getAttribute('name');
+        } else {
+            $user_name = NULL;
+        }
+
+        return $user_name;
+    }
+
+    public static function getAll($limit, $offset = 0)
+    {
+        return Post::find()->limit($limit)->offset($offset)->all();
+    }
 }

@@ -58,11 +58,15 @@ class AccessToken extends \yii\db\ActiveRecord
     {
         $token = static::findOne(['token' => $access_token]);
 
-
         if($token) {
              $token = $token->getAttribute('user_id');
          }
 
         return $token;
+    }
+
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

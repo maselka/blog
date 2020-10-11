@@ -4,7 +4,9 @@ namespace frontend\modules\api\controllers;
 
 use app\modules\api\models\AccessToken;
 use app\modules\api\models\Post;
+use app\modules\api\models\User;
 use Yii;
+use yii\base\ErrorException;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
@@ -20,6 +22,7 @@ class PostController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'create' => ['POST'],
+                    'get-all' => ['GET'],
                 ],
             ],
         ];
@@ -38,7 +41,13 @@ class PostController extends Controller
         $post = new Post();
         $post->scenario = Post::SCENARIO_CREATE;
         $post->attributes = $param;
-        $user_id = AccessToken::findUserIdByAccessToken($param['access_token']);
+
+        try {
+            $user_id = AccessToken::findUserIdByAccessToken($param['access_token']);
+        } catch (ErrorException $e) {
+            return ['status' => false, 'error_massage' => $e->getMessage()];
+        }
+
         if (!isset($param['access_token']) || !$user_id) {
             return ['status' => false, 'error_massage' => 'Incorrect access token'];
         }
@@ -56,4 +65,32 @@ class PostController extends Controller
         return ['status' => true, 'data' => 'post published'];
     }
 
+
+    public function actionGetAll()
+    {
+        $app = Yii::$app;
+        $app->response->format = Response::FORMAT_JSON;
+        $param = $app->request->getQueryParams();
+        $offset = $param['offset'] ?? 0;
+
+        try {
+            $limit = $param['limit'];
+            $user_id = AccessToken::findUserIdByAccessToken($param['access_token']);
+        } catch (ErrorException $e) {
+            return ['status' => false, 'error_massage' => $e->getMessage()];
+        }
+
+        if (!isset($param['access_token']) || !$user_id) {
+            return ['status' => false, 'error_massage' => 'Incorrect access token'];
+        }
+
+        $posts = Post::getAll($limit, $offset);
+        foreach ($posts as &$post) {
+            $author = $post->getUserName();
+            $post = $post->toArray();
+            $post['author'] = $author;
+        }
+
+        return $posts;
+    }
 }

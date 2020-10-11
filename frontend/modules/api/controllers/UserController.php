@@ -35,7 +35,7 @@ class UserController extends Controller
             return ['status' => false, 'error_massage' => 'wrong  email or password'];
         }
 
-        $access_token = AccessToken::findByUserId($user->getId());
+        $access_token = $user->getAccessToken()->getAttribute('token');
         if (!$access_token) {
             $access_token = new AccessToken();
             $access_token->setAttribute('user_id', $user->getId());
