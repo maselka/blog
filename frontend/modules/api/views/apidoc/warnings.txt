@@ -1,0 +1,171 @@
+Array
+(
+    [0] => Array
+        (
+            [line] => 28
+            [file] => frontend\modules\api\controllers\PostController.php
+            [message] => No docblock for element '$enableCsrfValidation'
+        )
+
+    [1] => Array
+        (
+            [line] => 28
+            [file] => frontend\modules\api\controllers\PostController.php
+            [message] => No short description for element '$enableCsrfValidation'
+        )
+
+    [2] => Array
+        (
+            [line] => 30
+            [file] => frontend\modules\api\controllers\PostController.php
+            [message] => No docblock for element 'behaviors'
+        )
+
+    [3] => Array
+        (
+            [line] => 43
+            [file] => frontend\modules\api\controllers\PostController.php
+            [message] => No docblock for element 'actionIndex'
+        )
+
+    [4] => Array
+        (
+            [line] => 115
+            [file] => frontend\modules\api\controllers\PostController.php
+            [message] => No docblock for element 'actionUser'
+        )
+
+    [5] => Array
+        (
+            [line] => 28
+            [file] => frontend\modules\api\controllers\PostController.php
+            [message] => No docblock for element '$enableCsrfValidation'
+        )
+
+    [6] => Array
+        (
+            [line] => 28
+            [file] => frontend\modules\api\controllers\PostController.php
+            [message] => No short description for element '$enableCsrfValidation'
+        )
+
+    [7] => Array
+        (
+            [line] => 30
+            [file] => frontend\modules\api\controllers\PostController.php
+            [message] => No docblock for element 'behaviors'
+        )
+
+    [8] => Array
+        (
+            [line] => 28
+            [file] => frontend\modules\api\controllers\PostController.php
+            [message] => No docblock for element '$enableCsrfValidation'
+        )
+
+    [9] => Array
+        (
+            [line] => 28
+            [file] => frontend\modules\api\controllers\PostController.php
+            [message] => No short description for element '$enableCsrfValidation'
+        )
+
+    [10] => Array
+        (
+            [line] => 30
+            [file] => frontend\modules\api\controllers\PostController.php
+            [message] => No docblock for element 'behaviors'
+        )
+
+    [11] => Array
+        (
+            [line] => 25
+            [file] => frontend\modules\api\controllers\UserController.php
+            [message] => No docblock for element '$enableCsrfValidation'
+        )
+
+    [12] => Array
+        (
+            [line] => 25
+            [file] => frontend\modules\api\controllers\UserController.php
+            [message] => No short description for element '$enableCsrfValidation'
+        )
+
+    [13] => Array
+        (
+            [line] => 27
+            [file] => frontend\modules\api\controllers\UserController.php
+            [message] => No docblock for element 'actionIndex'
+        )
+
+    [14] => Array
+        (
+            [line] => 33
+            [file] => frontend\modules\api\controllers\UserController.php
+            [message] => No docblock for element 'actionAuth'
+        )
+
+    [15] => Array
+        (
+            [line] => 62
+            [file] => frontend\modules\api\controllers\UserController.php
+            [message] => No docblock for element 'actionCreate'
+        )
+
+    [16] => Array
+        (
+            [line] => 25
+            [file] => frontend\modules\api\controllers\UserController.php
+            [message] => No docblock for element '$enableCsrfValidation'
+        )
+
+    [17] => Array
+        (
+            [line] => 25
+            [file] => frontend\modules\api\controllers\UserController.php
+            [message] => No short description for element '$enableCsrfValidation'
+        )
+
+    [18] => Array
+        (
+            [line] => 27
+            [file] => frontend\modules\api\controllers\UserController.php
+            [message] => No docblock for element 'actionAuth'
+        )
+
+    [19] => Array
+        (
+            [line] => 61
+            [file] => frontend\modules\api\controllers\UserController.php
+            [message] => No docblock for element 'actionCreate'
+        )
+
+    [20] => Array
+        (
+            [line] => 26
+            [file] => frontend\modules\api\controllers\UserController.php
+            [message] => No docblock for element '$enableCsrfValidation'
+        )
+
+    [21] => Array
+        (
+            [line] => 26
+            [file] => frontend\modules\api\controllers\UserController.php
+            [message] => No short description for element '$enableCsrfValidation'
+        )
+
+    [22] => Array
+        (
+            [line] => 25
+            [file] => frontend\modules\api\controllers\UserController.php
+            [message] => No docblock for element '$enableCsrfValidation'
+        )
+
+    [23] => Array
+        (
+            [line] => 25
+            [file] => frontend\modules\api\controllers\UserController.php
+            [message] => No short description for element '$enableCsrfValidation'
+        )
+
+)

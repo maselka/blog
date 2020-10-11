@@ -14,6 +14,9 @@ use Yii;
  */
 class AccessToken extends \yii\db\ActiveRecord
 {
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
     /**
      * {@inheritdoc}
      */
@@ -36,17 +39,13 @@ class AccessToken extends \yii\db\ActiveRecord
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
+    public function scenarios()
     {
-        return [
-            'id' => 'ID',
-            'user_id' => 'User ID',
-            'token' => 'Token',
-            'time_stamp' => 'Time Stamp',
-        ];
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_CREATE] = [ 'token', 'time_stamp', 'user_id' ];
+        $scenarios[self::SCENARIO_UPDATE] = [ 'token', 'time_stamp' ];
+
+        return $scenarios;
     }
 
     public static function findByUserId($id)

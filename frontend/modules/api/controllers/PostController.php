@@ -1,16 +1,28 @@
 <?php
+/**
+ * @link http://blog.localhost
+ * @copyright Copyright (c) 2016 Lookahead Consulting
+ * @license https://github.com/maselka/blog/blob/master/LICENSE.md
+ */
 
 namespace frontend\modules\api\controllers;
 
 use app\modules\api\models\AccessToken;
 use app\modules\api\models\Post;
-use app\modules\api\models\User;
 use Yii;
 use yii\base\ErrorException;
+use yii\db\ActiveRecord;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\Response;
 
+
+/**
+ * PostController provides API functionality for create and get posts
+ *
+ * @author Marsel Gabdullin <gabdullinmr@gmail.com>
+ * @since 0.1
+ */
 class PostController extends Controller
 {
     public $enableCsrfValidation = false;
@@ -22,37 +34,40 @@ class PostController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'create' => ['POST'],
-                    'get-all' => ['GET'],
+                    'all' => ['GET'],
+                    'user' => ['GET'],
                 ],
             ],
         ];
     }
 
-    public function actionIndex()
+    /**
+     * Create new post in blog
+     *
+     * @param string $access_token Token for user identification
+     * @param string $text Publication text
+     * @return array Status and data or error massage
+     */
+    public function actionCreate($access_token = '', $text = '')
     {
-        return $this->render('index');
-    }
-
-    public function actionCreate()
-    {
-        $app = Yii::$app;
-        $app->response->format = Response::FORMAT_JSON;
-        $param = $app->request->post();
-        $post = new Post();
-        $post->scenario = Post::SCENARIO_CREATE;
-        $post->attributes = $param;
-
-        try {
-            $user_id = AccessToken::findUserIdByAccessToken($param['access_token']);
-        } catch (ErrorException $e) {
-            return ['status' => false, 'error_massage' => $e->getMessage()];
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if ($access_token == '') {
+            return ['status' => false, 'error_massage' => 'parameter access_token is missing or empty string'];
         }
 
-        if (!isset($param['access_token']) || !$user_id) {
+        $access_token = AccessToken::findOne(['token' => $access_token]);
+        if (!$access_token) {
             return ['status' => false, 'error_massage' => 'Incorrect access token'];
         }
 
-        $post->setAttribute('user_id', $user_id);
+        $user = $access_token->user;
+        if(!$user) {
+            return ['status' => false, 'error_massage' => 'Incorrect access token'];
+        }
+
+        $post = new Post();
+        $post->setAttribute('text', $text);
+        $post->setAttribute('user_id', $user->id);
         $post->setAttribute('date', date('Y-m-d H:i:s'));
         if (!$post->validate()) {
             return ['status' => false, 'error_massage' => $post->getErrors()];
@@ -65,18 +80,24 @@ class PostController extends Controller
         return ['status' => true, 'data' => 'post published'];
     }
 
-    public function actionAll()
+    /**
+     * Getting any blog posts
+     *
+     * @param string $access_token Token for user identification.
+     * @param null $limit Number of posts requested. Optional field.
+     * @param int $offset Number of posts received. Optional field.
+     * @return array Array of posts.
+     */
+    public function actionAll($access_token = '', $limit = NULL, $offset = 0)
     {
-        $app = Yii::$app;
-        $app->response->format = Response::FORMAT_JSON;
-        $param = $app->request->getQueryParams();
-        $offset = $param['offset'] ?? 0;
-        $limit = $param['limit'] ?? NULL;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if ($access_token == '') {
+            return ['status' => false, 'error_massage' => 'Parameter access_token is missing or empty string'];
+        }
 
-        try {
-            $access_token = AccessToken::findOne(['token' => $param['access_token']]);
-        } catch (ErrorException $e) {
-            return ['status' => false, 'error_massage' => $e->getMessage()];
+        $access_token = AccessToken::findOne(['token' => $access_token]);
+        if (!$access_token) {
+            return ['status' => false, 'error_massage' => 'Incorrect access token'];
         }
 
         $user = $access_token->user;
@@ -89,23 +110,31 @@ class PostController extends Controller
             $author = $post->user->name;
             $post = $post->toArray();
             $post['author'] = $author;
+            unset($post['id']);
+            unset($post['user_id']);
         }
 
         return $posts;
     }
 
-    public function actionUser()
+    /**
+     * Getting posts user
+     *
+     * @param string $access_token Token for user identification.
+     * @param null $limit Number of posts requested. Optional field.
+     * @param int $offset Number of posts received. Optional field.
+     * @return array Array of posts.
+     */
+    public function actionUser($access_token = '', $limit = NULL, $offset = 0)
     {
-        $app = Yii::$app;
-        $app->response->format = Response::FORMAT_JSON;
-        $param = $app->request->getQueryParams();
-        $offset = $param['offset'] ?? 0;
-        $limit = $param['limit'] ?? NULL;
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        if ($access_token == '') {
+            return ['status' => false, 'error_massage' => 'Parameter access_token is missing or empty string'];
+        }
 
-        try {
-            $access_token = AccessToken::findOne(['token' => $param['access_token']]);
-        } catch (ErrorException $e) {
-            return ['status' => false, 'error_massage' => $e->getMessage()];
+        $access_token = AccessToken::findOne(['token' => $access_token]);
+        if (!$access_token) {
+            return ['status' => false, 'error_massage' => 'Incorrect access token'];
         }
 
         $user = $access_token->user;
@@ -122,6 +151,8 @@ class PostController extends Controller
         foreach ($posts as &$post) {
             $post = $post->toArray();
             $post['author'] = $user->name;
+            unset($post['id']);
+            unset($post['user_id']);
         }
 
         return $posts;

@@ -110,7 +110,7 @@ class User extends ActiveRecord
 
     public function getAccessToken()
     {
-        return $this->hasMany(Post::className(), ['user_id' => 'id'])->select(['token'])->one();
+        return $this->hasMany(AccessToken::className(), ['user_id' => 'id'])->select(['token'])->one();
     }
 
     public static function getAll()

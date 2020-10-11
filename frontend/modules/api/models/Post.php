@@ -3,6 +3,7 @@
 namespace app\modules\api\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "post".
@@ -12,7 +13,7 @@ use Yii;
  * @property string $text
  * @property string $date
  */
-class Post extends \yii\db\ActiveRecord
+class Post extends ActiveRecord
 {
     const SCENARIO_CREATE = 'create';
 
