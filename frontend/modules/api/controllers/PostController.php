@@ -44,23 +44,23 @@ class PostController extends Controller
     /**
      * Create new post in blog
      *
-     * @param string $access_token Token for user identification
+     * @param string $accessToken Token for user identification
      * @param string $text Publication text
      * @return array Status and data or error massage
      */
-    public function actionCreate($access_token = '', $text = '')
+    public function actionCreate($accessToken = '', $text = '')
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        if ($access_token == '') {
+        if ($accessToken == '') {
             return ['status' => false, 'error_massage' => 'parameter access_token is missing or empty string'];
         }
 
-        $access_token = AccessToken::findOne(['token' => $access_token]);
-        if (!$access_token) {
+        $accessToken = AccessToken::findOne(['token' => $accessToken]);
+        if (!$accessToken) {
             return ['status' => false, 'error_massage' => 'Incorrect access token'];
         }
 
-        $user = $access_token->user;
+        $user = $accessToken->user;
         if(!$user) {
             return ['status' => false, 'error_massage' => 'Incorrect access token'];
         }
@@ -83,24 +83,24 @@ class PostController extends Controller
     /**
      * Getting any blog posts
      *
-     * @param string $access_token Token for user identification.
+     * @param string $accessToken Token for user identification.
      * @param null $limit Number of posts requested. Optional field.
      * @param int $offset Number of posts received. Optional field.
      * @return array Array of posts.
      */
-    public function actionAll($access_token = '', $limit = NULL, $offset = 0)
+    public function actionAll($accessToken = '', $limit = NULL, $offset = 0)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        if ($access_token == '') {
+        if ($accessToken == '') {
             return ['status' => false, 'error_massage' => 'Parameter access_token is missing or empty string'];
         }
 
-        $access_token = AccessToken::findOne(['token' => $access_token]);
-        if (!$access_token) {
+        $accessToken = AccessToken::findOne(['token' => $accessToken]);
+        if (!$accessToken) {
             return ['status' => false, 'error_massage' => 'Incorrect access token'];
         }
 
-        $user = $access_token->user;
+        $user = $accessToken->user;
         if(!$user) {
             return ['status' => false, 'error_massage' => 'Incorrect access token'];
         }
@@ -117,24 +117,24 @@ class PostController extends Controller
     /**
      * Getting posts user
      *
-     * @param string $access_token Token for user identification.
+     * @param string $accessToken Token for user identification.
      * @param null $limit Number of posts requested. Optional field.
      * @param int $offset Number of posts received. Optional field.
      * @return array Array of posts.
      */
-    public function actionUser($access_token = '', $limit = NULL, $offset = 0)
+    public function actionUser($accessToken = '', $limit = NULL, $offset = 0)
     {
         Yii::$app->response->format = Response::FORMAT_JSON;
-        if ($access_token == '') {
+        if ($accessToken == '') {
             return ['status' => false, 'error_massage' => 'Parameter access_token is missing or empty string'];
         }
 
-        $access_token = AccessToken::findOne(['token' => $access_token]);
-        if (!$access_token) {
+        $accessToken = AccessToken::findOne(['token' => $accessToken]);
+        if (!$accessToken) {
             return ['status' => false, 'error_massage' => 'Incorrect access token'];
         }
 
-        $user = $access_token->user;
+        $user = $accessToken->user;
         if(!$user) {
             return ['status' => false, 'error_massage' => 'Incorrect access token'];
         }

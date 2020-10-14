@@ -45,26 +45,26 @@ class UserController extends Controller
             return ['status' => false, 'error_massage' => 'wrong  email or password'];
         }
 
-        $access_token = $user->getAccessToken();
-        if (!$access_token) {
-            $access_token = new AccessToken();
-            $access_token->scenario = AccessToken::SCENARIO_CREATE;
+        $accessToken = $user->getAccessToken();
+        if (!$accessToken) {
+            $accessToken = new AccessToken();
+            $accessToken->scenario = AccessToken::SCENARIO_CREATE;
         } else {
-            $access_token->scenario = AccessToken::SCENARIO_UPDATE;
+            $accessToken->scenario = AccessToken::SCENARIO_UPDATE;
         }
 
         try {
-            $access_token->attributes = [
+            $accessToken->attributes = [
                 'token' => $app->security->generateRandomString(),
                 'time_stamp' => date("Y-m-d H:i:s"),
                 'user_id' => $user->id,
             ];
-            $access_token->save();
+            $accessToken->save();
         } catch (Exception $e) {
             return ['status' => false, 'error_massage' => 'Failed to create token'];
         }
 
-        return ['status' => true, 'access_token' => $access_token->getAttribute('token')];
+        return ['status' => true, 'access_token' => $accessToken->getAttribute('token')];
     }
 
     /**
@@ -100,18 +100,18 @@ class UserController extends Controller
         try {
             $user->setPassword();
             $user->save();
-            $access_token = new AccessToken();
-            $access_token->scenario = AccessToken::SCENARIO_CREATE;
-            $access_token->attributes = [
+            $accessToken = new AccessToken();
+            $accessToken->scenario = AccessToken::SCENARIO_CREATE;
+            $accessToken->attributes = [
                 'token' => $app->security->generateRandomString(),
                 'time_stamp' => date("Y-m-d H:i:s"),
                 'user_id' => $user->id,
             ];
-            $access_token->save();
+            $accessToken->save();
         } catch (Exception $e) {
             return ['status' => false, 'error_massage' => 'Failed to create token'];
         }
 
-        return ['status' => true, 'access_token' => $access_token->getAttribute('token')];
+        return ['status' => true, 'access_token' => $accessToken->getAttribute('token')];
     }
 }
