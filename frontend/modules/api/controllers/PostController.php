@@ -105,18 +105,13 @@ class PostController extends Controller
             return ['status' => false, 'error_massage' => 'Incorrect access token'];
         }
 
-        $posts = [];
+        $postsArray = [];
         $postQuery = Post::find()->limit($limit)->offset($offset);
         foreach ($postQuery->each() as $post) {
-            $author = $post->user->name;
-            $post = $post->toArray();
-            $post['author'] = $author;
-            unset($post['id']);
-            unset($post['user_id']);
-            array_push($posts, $post);
+            array_push($postsArray, $post->serializeToArray());
         }
 
-        return $posts;
+        return $postsArray;
     }
 
     /**
@@ -149,16 +144,12 @@ class PostController extends Controller
             return ['status' => false, 'error_massage' => 'User did not create post'];
         }
 
-        $posts = [];
+        $postsArray = [];
         $postQuery = $user->getPosts()->limit($limit)->offset($offset);
         foreach ($postQuery->each() as $post) {
-            $post = $post->toArray();
-            $post['author'] = $user->name;
-            unset($post['id']);
-            unset($post['user_id']);
-            array_push($posts, $post);
+            array_push($postsArray, $post->serializeToArray());
         }
 
-        return $posts;
+        return $postsArray;
     }
 }

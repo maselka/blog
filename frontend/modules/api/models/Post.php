@@ -33,4 +33,15 @@ class Post extends BasePost
 
         return $user_name;
     }
+
+    public function serializeToArray()
+    {
+        $authorUser = $this->user;
+        $data = [];
+        $data['text'] = $this->text;
+        $data['date'] = $this->date;
+        $data['author'] = !empty($authorUser) ? $authorUser->name : null;
+
+        return $data;
+    }
 }
