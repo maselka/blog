@@ -2,8 +2,6 @@
 
 namespace app\modules\api\models;
 
-use Yii;
-
 /**
  * This is the model class for table "access_token".
  *
@@ -12,32 +10,10 @@ use Yii;
  * @property string $token
  * @property string $time_stamp
  */
-class AccessToken extends \yii\db\ActiveRecord
+class AccessToken extends BaseAccessToken
 {
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'access_token';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['user_id', 'token', 'time_stamp'], 'required'],
-            [['user_id'], 'integer'],
-            [['time_stamp'], 'safe'],
-            [['token'], 'string', 'max' => 255],
-            [['user_id'], 'unique'],
-        ];
-    }
 
     public function scenarios()
     {
@@ -61,10 +37,5 @@ class AccessToken extends \yii\db\ActiveRecord
         }
 
         return $token;
-    }
-
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

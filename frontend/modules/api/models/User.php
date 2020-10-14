@@ -4,7 +4,6 @@ namespace app\modules\api\models;
 
 use Yii;
 use yii\base\Exception;
-use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "user".
@@ -15,29 +14,9 @@ use yii\db\ActiveRecord;
  * @property string $password
  * @property string $role
  */
-class User extends ActiveRecord
+class User extends BaseUser
 {
     const SCENARIO_CREATE = 'create';
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'user';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['email', 'name', 'password', 'role'], 'required'],
-            [['email', 'name', 'password', 'role'], 'string', 'max' => 255],
-            [['email'], 'unique'],
-        ];
-    }
 
     public function scenarios()
     {
@@ -45,20 +24,6 @@ class User extends ActiveRecord
         $scenarios[self::SCENARIO_CREATE] = ['name', 'email', 'password'];
 
         return $scenarios;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'email' => 'Email',
-            'name' => 'Name',
-            'password' => 'Password',
-            'rule' => 'Rule',
-        ];
     }
 
     public function setPassword($password = null)
@@ -101,21 +66,6 @@ class User extends ActiveRecord
     public function getId()
     {
         return $this->getPrimaryKey();
-    }
-
-    public function getPosts()
-    {
-        return $this->hasMany(Post::className(), ['user_id' => 'id'])->select(['text', 'date'])->all();
-    }
-
-    public function getAccessToken()
-    {
-        return $this->hasMany(AccessToken::className(), ['user_id' => 'id'])->select(['token'])->one();
-    }
-
-    public static function getAll()
-    {
-        return User::find()->all();
     }
 
     public static function getNameById()

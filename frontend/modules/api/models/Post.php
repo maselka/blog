@@ -2,9 +2,6 @@
 
 namespace app\modules\api\models;
 
-use Yii;
-use yii\db\ActiveRecord;
-
 /**
  * This is the model class for table "post".
  *
@@ -13,30 +10,9 @@ use yii\db\ActiveRecord;
  * @property string $text
  * @property string $date
  */
-class Post extends ActiveRecord
+class Post extends BasePost
 {
     const SCENARIO_CREATE = 'create';
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'post';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['user_id', 'text', 'date'], 'required'],
-            [['user_id'], 'integer'],
-            [['text'], 'string'],
-            [['date'], 'safe'],
-        ];
-    }
 
     public function scenarios()
     {
@@ -44,24 +20,6 @@ class Post extends ActiveRecord
         $scenarios[self::SCENARIO_CREATE] = ['text'];
 
         return $scenarios;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'user_id' => 'User ID',
-            'text' => 'Text',
-            'date' => 'Date',
-        ];
-    }
-
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     public function getUserName()
@@ -74,10 +32,5 @@ class Post extends ActiveRecord
         }
 
         return $user_name;
-    }
-
-    public static function getAll($limit, $offset = 0)
-    {
-        return Post::find()->limit($limit)->offset($offset)->all();
     }
 }
