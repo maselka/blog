@@ -8,6 +8,7 @@
 namespace frontend\modules\api\controllers;
 
 use app\modules\api\models\AccessToken;
+use app\modules\api\models\AuthByLoginForm;
 use app\modules\api\models\User;
 use Yii;
 use yii\base\Exception;
@@ -40,11 +41,14 @@ class UserController extends Controller
                 return ['status' => false, 'error_massage' => 'Parameter password is missing or empty string'];
         }
 
-        $user = User::findByEmail($email);
-        if (!$user || !($user->validatePassword($password))) {
-            return ['status' => false, 'error_massage' => 'wrong  email or password'];
+        $model = new AuthByLoginForm();
+        $model->email = $email;
+        $model->password = $password;
+        if (!$model->validate()) {
+            return ['status' => false, 'error_massage' => $model->getErrors()];
         }
 
+        $user = $model->login();
         $accessToken = $user->getAccessToken();
         if (!$accessToken) {
             $accessToken = new AccessToken();
@@ -54,10 +58,12 @@ class UserController extends Controller
         }
 
         try {
+            $accessToken = new AccessToken();
+            $accessToken->scenario = AccessToken::SCENARIO_CREATE;
             $accessToken->attributes = [
                 'token' => $app->security->generateRandomString(),
-                'time_stamp' => date("Y-m-d H:i:s"),
-                'user_id' => $user->id,
+                'timeStamp' => date("Y-m-d H:i:s"),
+                'userId' => $user->id,
             ];
             $accessToken->save();
         } catch (Exception $e) {
@@ -97,21 +103,21 @@ class UserController extends Controller
             return ['status' => false, 'error_massage' => $user->getErrors()];
         }
 
+        $user->setPassword();
         try {
-            $user->setPassword();
             $user->save();
             $accessToken = new AccessToken();
             $accessToken->scenario = AccessToken::SCENARIO_CREATE;
             $accessToken->attributes = [
                 'token' => $app->security->generateRandomString(),
-                'time_stamp' => date("Y-m-d H:i:s"),
-                'user_id' => $user->id,
+                'timeStamp' => date("Y-m-d H:i:s"),
+                'userId' => $user->id,
             ];
             $accessToken->save();
         } catch (Exception $e) {
-            return ['status' => false, 'error_massage' => 'Failed to create token'];
+            return ['status' => false, 'error_massage' => $e->getMessage()];
         }
 
-        return ['status' => true, 'access_token' => $accessToken->getAttribute('token')];
+        return ['status' => true, 'accessToken' => $accessToken->getAttribute('token')];
     }
 }

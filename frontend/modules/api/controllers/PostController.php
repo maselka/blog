@@ -67,7 +67,7 @@ class PostController extends Controller
 
         $post = new Post();
         $post->setAttribute('text', $text);
-        $post->setAttribute('user_id', $user->id);
+        $post->setAttribute('userId', $user->id);
         $post->setAttribute('date', date('Y-m-d H:i:s'));
         if (!$post->validate()) {
             return ['status' => false, 'error_massage' => $post->getErrors()];
@@ -100,7 +100,7 @@ class PostController extends Controller
             return ['status' => false, 'error_massage' => 'Incorrect access token'];
         }
 
-        $user = $accessToken->user;
+        $user = $accessToken->getUser();
         if(!$user) {
             return ['status' => false, 'error_massage' => 'Incorrect access token'];
         }

@@ -5,14 +5,12 @@ namespace app\modules\api\models;
 use Yii;
 
 /**
- * This is the model class for table "access_token".
+ * This is the model class for table "accessToken".
  *
  * @property int $id
- * @property int $user_id
+ * @property int $userId
  * @property string $token
- * @property string $time_stamp
- *
- * @property User $user
+ * @property string $timeStamp
  */
 class BaseAccessToken extends \yii\db\ActiveRecord
 {
@@ -21,7 +19,7 @@ class BaseAccessToken extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'access_token';
+        return 'accessToken';
     }
 
     /**
@@ -30,12 +28,12 @@ class BaseAccessToken extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'token', 'time_stamp'], 'required'],
-            [['user_id'], 'integer'],
-            [['time_stamp'], 'safe'],
+            [['userId', 'token', 'timeStamp'], 'required'],
+            [['userId'], 'integer'],
+            [['timeStamp'], 'safe'],
             [['token'], 'string', 'max' => 255],
-            [['user_id'], 'unique'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['userId'], 'unique'],
+            [['userId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userId' => 'id']],
         ];
     }
 
@@ -46,19 +44,9 @@ class BaseAccessToken extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
+            'userId' => 'User ID',
             'token' => 'Token',
-            'time_stamp' => 'Time Stamp',
+            'timeStamp' => 'Time Stamp',
         ];
-    }
-
-    /**
-     * Gets query for [[User]].
-     *
-     * @return \yii\db\ActiveQuery
-     */
-    public function getUser()
-    {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 }

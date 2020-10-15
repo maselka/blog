@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `{{%post}}`.
+ * Handles the creation of table `{{%accessToken}}`.
  */
-class m201010_020319_create_post_table extends Migration
+class m201014_233147_create_access_token_table extends Migration
 {
     /**
      * {@inheritdoc}

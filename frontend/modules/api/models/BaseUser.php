@@ -13,7 +13,7 @@ use Yii;
  * @property string $password
  * @property string $role
  *
- * @property AccessToken $accessToken
+ * @property Accesstoken $accesstoken
  * @property Post[] $posts
  */
 class BaseUser extends \yii\db\ActiveRecord
@@ -53,13 +53,13 @@ class BaseUser extends \yii\db\ActiveRecord
     }
 
     /**
-     * Gets query for [[AccessToken]].
+     * Gets query for [[Accesstoken]].
      *
      * @return \yii\db\ActiveQuery
      */
-    public function getAccessToken()
+    public function getAccesstoken()
     {
-        return $this->hasOne(AccessToken::className(), ['user_id' => 'id']);
+        return $this->hasOne(Accesstoken::className(), ['userId' => 'id']);
     }
 
     /**
@@ -69,6 +69,6 @@ class BaseUser extends \yii\db\ActiveRecord
      */
     public function getPosts()
     {
-        return $this->hasMany(Post::className(), ['user_id' => 'id']);
+        return $this->hasMany(Post::className(), ['userId' => 'id']);
     }
 }

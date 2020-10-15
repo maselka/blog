@@ -2,14 +2,8 @@
 
 namespace app\modules\api\models;
 
-/**
- * This is the model class for table "access_token".
- *
- * @property int $id
- * @property int $user_id
- * @property string $token
- * @property string $time_stamp
- */
+use Yii;
+
 class AccessToken extends BaseAccessToken
 {
     const SCENARIO_CREATE = 'create';
@@ -18,24 +12,34 @@ class AccessToken extends BaseAccessToken
     public function scenarios()
     {
         $scenarios = parent::scenarios();
-        $scenarios[self::SCENARIO_CREATE] = [ 'token', 'time_stamp', 'user_id' ];
-        $scenarios[self::SCENARIO_UPDATE] = [ 'token', 'time_stamp' ];
+        $scenarios[self::SCENARIO_CREATE] = [ 'token', 'timeStamp', 'userId' ];
+        $scenarios[self::SCENARIO_UPDATE] = [ 'token', 'timeStamp' ];
 
         return $scenarios;
     }
 
     public static function findByUserId($id)
     {
-        return static::findOne(['user_id' => $id]);
+        return static::findOne(['userId' => $id]);
     }
 
-    public static function findUserIdByAccessToken($access_token)
+    public static function findUserIdByAccessToken($accessToken)
     {
-        $token = static::findOne(['token' => $access_token]);
+        $token = static::findOne(['token' => $accessToken]);
         if($token) {
-             $token = $token->getAttribute('user_id');
+             $token = $token->getAttribute('userId');
         }
 
         return $token;
+    }
+
+    /**
+     * Gets query for [[user]].
+     *
+     * @return \yii\db\ActiveRecord
+     */
+    public function getUser()
+    {
+        return $this->hasOne(User::className(), ['id' => 'userId'])->one();
     }
 }

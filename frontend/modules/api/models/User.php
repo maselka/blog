@@ -5,15 +5,6 @@ namespace app\modules\api\models;
 use Yii;
 use yii\base\Exception;
 
-/**
- * This is the model class for table "user".
- *
- * @property int $id
- * @property string $email
- * @property string $name
- * @property string $password
- * @property string $role
- */
 class User extends BaseUser
 {
     const SCENARIO_CREATE = 'create';
@@ -58,7 +49,7 @@ class User extends BaseUser
      * @param string $email
      * @return User|null
      */
-    public static function findByEmail($email)
+    public static function findByEmail(string $email)
     {
         return static::findOne(['email' => $email]);
     }
@@ -71,5 +62,10 @@ class User extends BaseUser
     public static function getNameById()
     {
         return User::find()->select('name')->all();
+    }
+
+    public function getAccesstoken()
+    {
+        return $this->hasMany(Post::className(), ['userId' => 'id'])->one();
     }
 }

@@ -2,14 +2,6 @@
 
 namespace app\modules\api\models;
 
-/**
- * This is the model class for table "post".
- *
- * @property int $id
- * @property int $user_id
- * @property string $text
- * @property string $date
- */
 class Post extends BasePost
 {
     const SCENARIO_CREATE = 'create';
@@ -24,7 +16,7 @@ class Post extends BasePost
 
     public function getUserName()
     {
-        $user = $this->hasOne(User::className(), ['id' => 'user_id'])->one();
+        $user = $this->hasOne(User::className(), ['id' => 'userId'])->one();
         if ($user) {
            $user_name = $user->getAttribute('name');
         } else {

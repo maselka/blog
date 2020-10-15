@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "post".
  *
  * @property int $id
- * @property int $user_id
+ * @property int $userId
  * @property string $text
  * @property string $date
  *
@@ -30,11 +30,11 @@ class BasePost extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['user_id', 'text', 'date'], 'required'],
-            [['user_id'], 'integer'],
+            [['userId', 'text', 'date'], 'required'],
+            [['userId'], 'integer'],
             [['text'], 'string'],
             [['date'], 'safe'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['userId'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['userId' => 'id']],
         ];
     }
 
@@ -45,7 +45,7 @@ class BasePost extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'user_id' => 'User ID',
+            'userId' => 'User ID',
             'text' => 'Text',
             'date' => 'Date',
         ];
@@ -58,6 +58,6 @@ class BasePost extends \yii\db\ActiveRecord
      */
     public function getUser()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(User::className(), ['id' => 'userId']);
     }
 }
